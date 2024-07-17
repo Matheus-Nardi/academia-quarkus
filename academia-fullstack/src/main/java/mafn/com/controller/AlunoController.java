@@ -1,9 +1,14 @@
 package mafn.com.controller;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.print.DocFlavor.READER;
 
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -18,6 +23,7 @@ import jakarta.ws.rs.core.Response.Status;
 import mafn.com.dto.CriarAlunoRequest;
 import mafn.com.model.Aluno;
 import mafn.com.service.AlunoService;
+import mafn.com.utils.ValidarEntradas;
 
 @Path("/alunos")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -25,14 +31,23 @@ import mafn.com.service.AlunoService;
 public class AlunoController {
 
     private AlunoService alunoService;
+    private Validator validator;
+
 
     @Inject
-    public AlunoController(AlunoService alunoService) {
+    public AlunoController(AlunoService alunoService , Validator validator) {
         this.alunoService = alunoService;
+        this.validator = validator;
     }
 
     @POST
     public Response criarAluno(CriarAlunoRequest alunoRequest) {
+         Set<ConstraintViolation<CriarAlunoRequest>> violations = validator.validate(alunoRequest);
+        if(!violations.isEmpty()){
+           ValidarEntradas validar = new ValidarEntradas("Há violações no input");
+           String aviso = validar.validarEntradas(violations);
+           return Response.status(Status.BAD_REQUEST).entity(aviso).build();
+        }
         Aluno aluno = alunoService.criarAluno(alunoRequest);
         return Response.status(Status.CREATED).entity(aluno).build();
     }

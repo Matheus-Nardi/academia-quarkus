@@ -15,14 +15,14 @@ import mafn.com.repository.AlunoRepository;
 public class AlunoService {
 
     private AlunoRepository repository;
-
+    
     @Inject
     public AlunoService(AlunoRepository repository) {
         this.repository = repository;
     }
 
     @Transactional
-    public Aluno criarAluno(CriarAlunoRequest alunoRequest) {
+    public Aluno criarAluno( CriarAlunoRequest alunoRequest) {
         Aluno aluno = Aluno.builder()
                 .nome(alunoRequest.getNome())
                 .idade(alunoRequest.getIdade())
