@@ -62,7 +62,6 @@ public class AlunoController {
     }
 
     @PUT
-    @Transactional
     @Path("{id}")
     public Response atualizarAluno(@PathParam("id") Long id , CriarAlunoRequest alunoRequestUpdate){
         Set<ConstraintViolation<CriarAlunoRequest>> violations = validator.validate(alunoRequestUpdate);
@@ -76,7 +75,6 @@ public class AlunoController {
     }
 
     @DELETE
-    @Transactional
     @Path("{id}")
     public Response deletarAluno(@PathParam("id") Long id){
         if(alunoService.deletarAluno(id)){
