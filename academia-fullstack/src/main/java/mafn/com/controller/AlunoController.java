@@ -3,8 +3,6 @@ package mafn.com.controller;
 import java.util.List;
 import java.util.Set;
 
-import javax.print.DocFlavor.READER;
-
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
@@ -42,11 +40,9 @@ public class AlunoController {
 
     @POST
     public Response criarAluno(CriarAlunoRequest alunoRequest) {
-         Set<ConstraintViolation<CriarAlunoRequest>> violations = validator.validate(alunoRequest);
+        Set<ConstraintViolation<CriarAlunoRequest>> violations = validator.validate(alunoRequest);
         if(!violations.isEmpty()){
-           ValidarEntradas validar = new ValidarEntradas("Há violações no input");
-           String aviso = validar.validarEntradas(violations);
-           return Response.status(Status.BAD_REQUEST).entity(aviso).build();
+           return ValidarEntradas.validarEntradas(violations).statusCode(Response.Status.BAD_REQUEST);
         }
         Aluno aluno = alunoService.criarAluno(alunoRequest);
         return Response.status(Status.CREATED).entity(aluno).build();
@@ -69,6 +65,10 @@ public class AlunoController {
     @Transactional
     @Path("{id}")
     public Response atualizarAluno(@PathParam("id") Long id , CriarAlunoRequest alunoRequestUpdate){
+        Set<ConstraintViolation<CriarAlunoRequest>> violations = validator.validate(alunoRequestUpdate);
+        if(!violations.isEmpty()){
+           return ValidarEntradas.validarEntradas(violations).statusCode(Response.Status.BAD_REQUEST);
+        }  
         if(alunoService.atualizarAluno(id, alunoRequestUpdate)){
             return Response.noContent().build();
         }

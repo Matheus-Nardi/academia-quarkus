@@ -1,31 +1,41 @@
 package mafn.com.utils;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import jakarta.validation.ConstraintViolation;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.StatusType;
 import lombok.Data;
 
 @Data
 public class ValidarEntradas {
 
     private String mensagem;
+    private Collection<CampoInvalido> entradasInvalidas;
     private boolean sucesso;
     
 
-    public ValidarEntradas(String mensagem){
+    private ValidarEntradas(String mensagem , Collection<CampoInvalido> entradasInvalidas){
         this.mensagem = mensagem;
+        this.entradasInvalidas = entradasInvalidas;
         this.sucesso = true;
     }
 
-    public String validarEntradas(Set<? extends ConstraintViolation<?>> violacoes) {
-        this.sucesso = false;
-        this.mensagem = violacoes.stream()
-             .map(cv -> cv.getMessage())
-             .collect(Collectors.joining(", "));
+    public static <T> ValidarEntradas validarEntradas(Set<? extends ConstraintViolation<?>> violacoes) {
+        List<CampoInvalido> camposInvalidos = violacoes.stream()
+                            .map(cv -> new CampoInvalido(cv.getPropertyPath().toString() , cv.getMessage()))
+                            .collect(Collectors.toList());
+            String mensagem = "Entrada inválida";
 
-		return this.mensagem;
+            return new ValidarEntradas(mensagem, camposInvalidos);
     }
+
+    public Response statusCode(StatusType status) {
+		return Response.status(status).entity(this).build();
+	}
 
 
    
