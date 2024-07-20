@@ -1,27 +1,24 @@
 package mafn.com.dto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import mafn.com.model.enums.Dificuldade;
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class TreinoResponse {
     private String nomeTreino;
     private String nomeAluno;
     private String nomeInstrutor;
-    private LocalDate dataHora;
+    private LocalDateTime dataHora;
     private Long duracao;
     private Dificuldade dificuldade;
-    public TreinoResponse(String nomeTreino, String nomeAluno, String nomeInstrutor, LocalDate dataHora, Long duracao,
-            Dificuldade dificuldade) {
-        this.nomeTreino = nomeTreino;
-        this.nomeAluno = nomeAluno;
-        this.nomeInstrutor = nomeInstrutor;
-        this.dataHora = dataHora;
-        this.duracao = duracao;
-        this.dificuldade = dificuldade;
-    }
-
+    private String descricaoTreino;
     
 }

@@ -2,6 +2,7 @@ package mafn.com.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.arjuna.ats.jta.exceptions.RollbackException;
 
@@ -59,8 +60,24 @@ public class TreinoService {
         return treino;
     }
 
-    public List<Treino> listarTreinos(){
-        return repository.findAll().list();
+    public List<TreinoResponse> listarTreinos(){
+        List<Treino> treinos = repository.findAll().list();
+        return treinos.stream()
+                        .map(this::toTreinoResponse)
+                        .collect(Collectors.toList());
+    }
+
+    private TreinoResponse toTreinoResponse(Treino treino){
+        return TreinoResponse.builder()
+            .nomeTreino(treino.getNome())
+            .nomeAluno(treino.getAluno().getNome())
+            .nomeInstrutor(treino.getInstrutor().getNome())
+            .dataHora(treino.getDataHora())
+            .duracao(treino.getDuracao())
+            .dificuldade(treino.getDificuldade())
+            .descricaoTreino(treino.getDescricao())
+            .build();
+            
     }
 
     

@@ -35,7 +35,7 @@ public class TreinoController {
 
     @GET
     public Response listarTreinos() {
-        List<Treino> treinos = treinoService.listarTreinos();
+        List<TreinoResponse> treinos = treinoService.listarTreinos();
         return Response.ok(treinos).build();
     }
 }
