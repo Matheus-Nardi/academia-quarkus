@@ -1,0 +1,38 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.titulo{
+    text-align: center;
+    margin: 2rem;
+}
+
+.input-campo{
+    padding: 5% 0%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.input-campo input{
+    width: 30%;
+    height: 30px;
+    border-radius: 0.5em;
+    border-color: rebeccapurple;
+    color: gray;
+    font-size: large;
+}
+
+.salvarButton{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.salvarButton button{
+    width: 30%;
+    height: 30px;
+    border-radius: 10px;
+}
