@@ -2,6 +2,8 @@ package mafn.com.service;
 
 import java.util.List;
 
+import org.hibernate.exception.ConstraintViolationException;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -9,6 +11,7 @@ import lombok.extern.log4j.Log4j2;
 import mafn.com.dto.CriarInstrutorResquest;
 import mafn.com.model.Instrutor;
 import mafn.com.repository.InstrutorRepository;
+import mafn.com.utils.exepctions.UniqueEmaillExcpetion;
 
 @ApplicationScoped
 @Log4j2
@@ -29,11 +32,17 @@ public class InstrutorService {
                 .email(instrutorResquest.getEmail())
                 .telefone(instrutorResquest.getTelefone())
                 .build();
-
-            repository.persist(instrutor);
-            log.info("O instrutor '{}' foi persistido com sucesso!" , instrutorResquest.getNome());
-
-        return instrutor;
+            
+            try {
+                repository.persist(instrutor);
+                log.info("O instrutor '{}' foi persistido com sucesso!" , instrutorResquest.getNome());
+                return instrutor;
+                
+            } catch (ConstraintViolationException e) {
+                log.error(e.getMessage());
+               throw new UniqueEmaillExcpetion("O email já está em uso");
+            }
+            
     }
 
     public List<Instrutor> listarInstrutores(){

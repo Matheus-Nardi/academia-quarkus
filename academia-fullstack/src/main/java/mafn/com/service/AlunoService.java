@@ -2,6 +2,8 @@ package mafn.com.service;
 
 import java.util.List;
 
+import org.hibernate.exception.ConstraintViolationException;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -9,6 +11,7 @@ import lombok.extern.log4j.Log4j2;
 import mafn.com.dto.CriarAlunoRequest;
 import mafn.com.model.Aluno;
 import mafn.com.repository.AlunoRepository;
+import mafn.com.utils.exepctions.UniqueEmaillExcpetion;
 
 @ApplicationScoped
 @Log4j2
@@ -31,10 +34,13 @@ public class AlunoService {
                 .email(alunoRequest.getEmail())
                 .telefone(alunoRequest.getTelefone())
                 .build();
-
-        repository.persist(aluno);
-        log.info("O aluno {} foi persistido com sucesso!", aluno.getNome());
-        return aluno;
+        try{
+            repository.persist(aluno);
+            log.info("O aluno {} foi persistido com sucesso!", aluno.getNome());
+            return aluno;
+        }catch(ConstraintViolationException e){
+            throw new UniqueEmaillExcpetion("O email já está em uso!");
+        }
     }
 
     public List<Aluno> listarAlunos() {

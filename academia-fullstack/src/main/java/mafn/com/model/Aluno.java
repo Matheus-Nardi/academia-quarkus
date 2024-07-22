@@ -1,5 +1,8 @@
 package mafn.com.model;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +25,7 @@ public class Aluno {
     private Integer idade;
     private Double peso;
     private Double altura;
+    @Column(unique = true)
     private String email;
     private String telefone;
 }

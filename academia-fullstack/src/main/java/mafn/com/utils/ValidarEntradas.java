@@ -15,13 +15,11 @@ public class ValidarEntradas {
 
     private String mensagem;
     private Collection<CampoInvalido> entradasInvalidas;
-    private boolean sucesso;
-    
+ 
 
     private ValidarEntradas(String mensagem , Collection<CampoInvalido> entradasInvalidas){
         this.mensagem = mensagem;
         this.entradasInvalidas = entradasInvalidas;
-        this.sucesso = true;
     }
 
     public static <T> ValidarEntradas validarEntradas(Set<? extends ConstraintViolation<?>> violacoes) {

@@ -10,6 +10,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
+import mafn.com.dto.AtualizarTreinoRequest;
 import mafn.com.dto.CriarTreinoRequest;
 import mafn.com.dto.TreinoResponse;
 import mafn.com.model.Aluno;
@@ -61,6 +62,7 @@ public class TreinoService {
     }
 
     public List<TreinoResponse> listarTreinos(){
+        log.info("Listando todos os treinos.");
         List<Treino> treinos = repository.findAll().list();
         return treinos.stream()
                         .map(this::toTreinoResponse)
@@ -78,6 +80,35 @@ public class TreinoService {
             .descricaoTreino(treino.getDescricao())
             .build();
             
+    }
+
+    @Transactional
+    public boolean atualizarTreino(Long id , AtualizarTreinoRequest treinoRequestUpdate){
+        Treino treinoFromDb = repository.findById(id);
+        if(treinoFromDb != null){
+            treinoFromDb.setNome(treinoRequestUpdate.getNomeTreino());
+            treinoFromDb.setDificuldade(treinoRequestUpdate.getDificuldade());
+            treinoFromDb.setDescricao(treinoRequestUpdate.getDescricao());
+            treinoFromDb.setDuracao(treinoRequestUpdate.getDuracao());
+            log.info("O treino foi atualizado com sucesso.");
+            return true;
+        }
+
+        log.info("O treino de id '{}' não existe" , id);
+        return false;
+    }
+
+    @Transactional
+    public boolean deletarTreino(Long id){
+        Treino treinoFromDb = repository.findById(id);
+        if(treinoFromDb != null){
+            repository.delete(treinoFromDb);
+            log.info("O treino foi deletado com sucesso");
+            return true;
+        }
+
+        log.info("O treino de id '{}' não existe" , id);
+        return false;
     }
 
     

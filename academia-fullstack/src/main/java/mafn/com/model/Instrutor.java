@@ -1,5 +1,6 @@
 package mafn.com.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +21,7 @@ public class Instrutor {
     private Long id;
     private String nome;
     private String especialidade;
+    @Column(unique = true)
     private String email;
     private String telefone;
 }
