@@ -45,10 +45,10 @@ Você foi contratado para desenvolver uma API REST para gerenciar uma academia .
     - `DELETE /instrutores/{id}`: Remoção de instrutor.
     - `GET /instrutores`: Listagem de todos os instrutores.
     - `GET /instrutores/{nome}`: Busca de instrutores por nome.
-    - `GET /instrutores/filtros: Listagem de instrutores por queryParam. Exemplo especialidades.
+    - `GET /instrutores/filtros`: Listagem de instrutores por queryParam. Exemplo especialidades.
 3. **TreinoControleler**
     - `POST /treinos`: Cadastro de treinos.
     - `PUT /treinos/{id}`: Atualização de informações do treino.
     - `DELETE /treinos/{id}`: Remoção de treino.
     - `GET /treinos`: Listagem de todos os treinos.
-    - `GET /treinos/filtros: Listagem de treinos por queryParam. Exemplo data do treino.
+    - `GET /treinos/filtros`: Listagem de treinos por queryParam. Exemplo data do treino.
