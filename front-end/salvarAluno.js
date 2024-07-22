@@ -19,8 +19,6 @@ function criarAluno() {
   return aluno;
 }
 
-
-
 function salvarAluno() {
   const aluno = criarAluno();
   fetch(baseUrl, {
@@ -37,6 +35,8 @@ function salvarAluno() {
     })
     .catch((error) => {
       console.error("Erro:", error);
-      alert("Erro ao salvar o aluno!")
+      alert("Erro ao salvar o aluno!");
     });
 }
+
+

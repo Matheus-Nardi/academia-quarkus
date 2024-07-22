@@ -19,7 +19,6 @@
     width: 30%;
     height: 30px;
     border-radius: 0.5em;
-    border-color: rebeccapurple;
     color: gray;
     font-size: large;
 }
@@ -36,3 +35,4 @@
     height: 30px;
     border-radius: 10px;
 }
+
