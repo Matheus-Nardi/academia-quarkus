@@ -62,6 +62,13 @@ public class TreinoController {
         return Response.ok(treinosPorData).build();
     }
 
+    @GET
+    @Path("/filtros")
+    public Response listarTreinoPorNome(@QueryParam("nome") String nome){
+        List<TreinoResponse> treinosPorNome = treinoService.listarTreinoPorNome(nome);
+        return Response.ok(treinosPorNome).build();
+    }
+
     @PUT
     @Path("{id}")
     public Response atualizarTreino(@PathParam("id") Long id , AtualizarTreinoRequest atualizarTreinoRequest){

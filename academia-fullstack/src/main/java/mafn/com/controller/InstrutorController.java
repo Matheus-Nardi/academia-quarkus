@@ -64,6 +64,12 @@ public class InstrutorController {
         instrutores.sort(Comparator.comparing(Instrutor::getNome));
         return Response.ok().entity(instrutores).build();
     }
+    @GET
+    @Path("/filtros")
+    public Response listarInstrutoresPorNome(@QueryParam("nome") String nome){
+        List<Instrutor> instrutores = instrutorService.listarInstrutoresPorNome(nome);
+        return Response.ok(instrutores).build();
+    }
 
     @PUT
     @Path("{id}")

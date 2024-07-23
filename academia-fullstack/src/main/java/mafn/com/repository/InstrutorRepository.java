@@ -13,4 +13,8 @@ public class InstrutorRepository implements PanacheRepository<Instrutor> {
     public List<Instrutor> listarInsturtorPorEspecialidade(String especialidade){
         return find("especialidade like ?1" , "%" + especialidade + "%").list();
     }
+
+    public List<Instrutor> lisarInstrutorPorNome(String nome){
+        return find("nome like ?1" , "%" + nome + "%").list();
+    }
 }

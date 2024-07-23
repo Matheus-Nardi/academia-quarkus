@@ -55,6 +55,11 @@ public class InstrutorService {
         return repository.listarInsturtorPorEspecialidade(especialidade);
     }
 
+    public List<Instrutor> listarInstrutoresPorNome(String nome){
+        log.info("Obtendo os instrutores pelo nome '{}' " , nome);
+        return repository.lisarInstrutorPorNome(nome);
+    }
+
     @Transactional
     public boolean atualizarInstrutor(Long id , CriarInstrutorResquest instrutorUpdate){
         Instrutor instrutorFromDb = repository.findById(id);

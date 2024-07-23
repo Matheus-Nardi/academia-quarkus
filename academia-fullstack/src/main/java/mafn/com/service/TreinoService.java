@@ -2,6 +2,7 @@ package mafn.com.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -75,11 +76,21 @@ public class TreinoService {
     public List<TreinoResponse> listarTreinosPorData(String data) {
         log.info("Listando todos os treinos pela data [{}]", data);
     
-        LocalDate localDate = LocalDate.parse(data);
-        List<Treino> treinos = repository.findAll().list();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate parsedData = LocalDate.parse(data, formatter);
+
+        List<Treino> treinos = repository.listarTreinoPorData(parsedData);
         return treinos.stream()
                 .map(this::toTreinoResponse)
-                .filter(tr -> tr.getDataHora().toLocalDate().equals(localDate))
+                .collect(Collectors.toList());
+    }
+
+    public List<TreinoResponse> listarTreinoPorNome(String nome){
+        log.info("Listando todos os treinos que contenham '{}' " , nome);
+        return repository
+                .listarTreinoPorNome(nome)
+                .stream()
+                .map(tr -> toTreinoResponse(tr))
                 .collect(Collectors.toList());
     }
 
